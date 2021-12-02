@@ -1,7 +1,7 @@
 {
   "name": "vue-stories-instagram",
   "description": "A simple vuejs plugin to view stories like in Instagram",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "main": "dist/vue-stories-instagram.umd.js",
   "module": "dist/vue-stories-instagram.esm.js",
