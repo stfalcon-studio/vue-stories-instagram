@@ -1,5 +1,6 @@
 <template>
   <div class="stories-wrapper">
+    <div @click="closeStories" class="close"></div>
     <div class="stories">
       <div
           v-for="(story, index) in stories"
@@ -272,7 +273,10 @@ export default {
       } else {
         return Math.abs((315 - 315 * (index + this.difference)) * 0.5) * -1;
       }
-    }
+    },
+    closeStories(){
+      this.$emit('closeStories');
+    },
   },
   mounted() {
     this.play();
@@ -498,7 +502,25 @@ export default {
     width: 100%;
     background: #ffffff;
     height: 2px;
+  }
+}
 
+.close {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:after{
+    content: "\00d7";
+    color: #FFFFFF;
+    font-weight: 100;
+    font-size: 35px;
   }
 }
 </style>
