@@ -60,12 +60,12 @@
                 {{ story.username }}
               </div>
             </div>
-            <slot v-if="showStoryBottom && index === indexSelected" name="innerContent" :story="story"></slot>
+            <slot v-if="showInnerContent && index === indexSelected" name="innerContent" :story="story"></slot>
           </div>
         </div>
         <div v-if="index === indexSelected" class="story__icon story__icon--prev" @click="prev(index)"></div>
         <div v-if="index === indexSelected" class="story__icon story__icon--next" @click="next(index)"></div>
-        <slot v-if="showStoryInfo && index === indexSelected" name="outerContent" :story="story"></slot>
+        <slot v-if="showOuterContent && index === indexSelected" name="outerContent" :story="story"></slot>
       </div>
     </div>
   </div>
@@ -88,11 +88,11 @@ export default {
       type: Number,
       default: 0,
     },
-    showStoryBottom: {
+    showInnerContent: {
       type: Boolean,
       default: false,
     },
-    showStoryInfo: {
+    showOuterContent: {
       type: Boolean,
       default: false,
     },
