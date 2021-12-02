@@ -284,6 +284,10 @@ export default {
 
 <style lang="scss" scoped>
 
+* {
+  box-sizing: border-box;
+}
+
 .stories-wrapper {
   position: fixed;
   top: 0;
@@ -292,7 +296,6 @@ export default {
   left: 0;
   background: rgba(16, 16, 16, 0.98);
   font-family: sans-serif;
-  box-sizing: border-box;
 }
 
 .stories {
@@ -365,6 +368,10 @@ export default {
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
+
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
     }
 
     .user__name {
@@ -435,6 +442,7 @@ export default {
 
       @media screen and (max-width: 768px) {
         right: 0;
+        transform: none;
       }
     }
   }
