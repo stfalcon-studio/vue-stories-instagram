@@ -1,7 +1,7 @@
 {
   "name": "vue-stories-instagram",
   "description": "A simple vuejs plugin to view stories like in Instagram",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "private": false,
   "repository": "https://github.com/stfalcon-studio/vue-stories-instagram",
   "bugs": "https://github.com/stfalcon-studio/vue-stories-instagram/issues",
