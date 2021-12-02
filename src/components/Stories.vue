@@ -284,12 +284,6 @@ export default {
 
 <style lang="scss" scoped>
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 .stories-wrapper {
   position: fixed;
   top: 0;
@@ -298,6 +292,7 @@ export default {
   left: 0;
   background: rgba(16, 16, 16, 0.98);
   font-family: sans-serif;
+  box-sizing: border-box;
 }
 
 .stories {
