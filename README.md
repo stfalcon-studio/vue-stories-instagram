@@ -1,3 +1,10 @@
+# vue-stories-instagram
+
+<br>
+
+<img width="100%" src="./public/example.png" alt="Demo"/>
+
+
 ## Simple usage
 ```vue
 <template>
@@ -52,7 +59,8 @@ export default {
 | **Events**           |                  |          |                                                                    |
 | `allStoriesEnd`      | Function()       | -        | Callback when all stories ends                                     |
 | `сurrentImageEnd`    | Function(index)  | -        | Callback when a current story image ends                           |
-| `сurrentAllImagesEnd`| Function()       | -        | Callback when a current story all images ends                      |
+| `сurrentAllImagesEnd`| Function(index)  | -        | Callback when a current story all images ends                      |
+| `closeStories`       | Function()       | -        | Callback when click on close icon                                  |
 
 ### Story Object
 | Property   | Description                                                          |
