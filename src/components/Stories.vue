@@ -15,6 +15,7 @@
       >
         <div class="story__source" @click="isPaused ? playStory($event) : pauseStory($event)">
           <video :id="getSrc(story, index).url" v-if="getSrc(story, index).type === 'video'"
+                 @play="handleVideoLoaded"
                  :src="getSrc(story, index).url" autoplay></video>
           <img
               v-else
@@ -109,6 +110,7 @@ export default {
     isPaused: false,
     newDur: 0,
     pausePer: 0,
+    currentVideoDuration: null,
   }),
   computed: {
     isAllStoriesEnd() {
@@ -116,6 +118,9 @@ export default {
     },
     isCurrentAllImagesEnd() {
       return this.key >= this.stories[this.indexSelected].images.length - 1;
+    },
+    realDuration(){
+      return this.currentVideoDuration !== null ? this.currentVideoDuration : this.duration;
     }
   },
   methods: {
@@ -159,6 +164,7 @@ export default {
       this.stories[index].images[this.key].viewed = true;
       this.indexSelected++;
       this.key = this.getLastViewedIndex(this.stories[this.indexSelected]);
+      this.reset();
       this.$emit('сurrentAllImagesEnd', index);
     },
     onCurrentImageEnd(index) {
@@ -190,6 +196,7 @@ export default {
           this.difference += index - (index - 1);
           this.indexSelected--;
           this.key = this.getLastViewedIndex(this.stories[this.indexSelected]);
+          this.reset();
         })
       } else {
         this.key--;
@@ -216,22 +223,43 @@ export default {
         if (this.newDur > 0) {
           this.percent =
               this.pausePer +
-              Math.floor((100 * (time - this.timer)) / this.duration);
+              Math.floor((100 * (time - this.timer)) / this.realDuration);
         } else {
-          this.percent = Math.floor((100 * (time - this.timer)) / this.duration);
+          this.percent = Math.floor((100 * (time - this.timer)) / this.realDuration);
         }
-      }, this.duration / 100)
+      }, this.realDuration / 100)
       if (this.newDur > 0) {
         this.interval = setInterval(this.autoPlay, this.newDur)
       } else {
-        this.interval = setInterval(this.autoPlay, this.duration)
+        this.interval = setInterval(this.autoPlay, this.realDuration);
       }
     },
     reset() {
       this.percent = 0;
+      this.currentVideoDuration = null;
       clearInterval(this.interval);
       clearInterval(this.progress);
       this.newDur = 0;
+      if(this.stories[this.indexSelected].images[this.key].type === 'video'){
+        const video = document.getElementById(this.stories[this.indexSelected].images[this.key].url);
+        if (video) {
+          video.play();
+        }
+        // this.play() is called from video play callback
+        return;
+      }
+      this.play();
+    },
+    handleVideoLoaded(){
+      if(this.currentVideoDuration !== null){
+        return;
+      }
+      const video = document.getElementById(this.stories[this.indexSelected].images[this.key].url);
+      if (video) {
+        this.currentVideoDuration = video.duration*1000;
+      }else{
+        return;
+      }
       this.play();
     },
     pauseStory(event) {
@@ -242,7 +270,7 @@ export default {
       this.pausePer = this.percent;
       clearInterval(this.progress);
       clearInterval(this.interval);
-      this.newDur = this.duration - (this.pausePer * this.duration) / 100;
+      this.newDur = this.realDuration - (this.pausePer * this.realDuration) / 100;
     },
     playStory(event) {
       if (event) {
@@ -258,6 +286,7 @@ export default {
       }
     },
     stopVideo(id) {
+      this.currentVideoDuration = null;
       const video = document.getElementById(id);
       if (video) {
         video.pause();
