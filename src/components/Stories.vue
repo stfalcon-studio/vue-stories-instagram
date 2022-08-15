@@ -17,9 +17,9 @@
       >
         <div
           class="story__source"
-          @mouseenter="!isCntrlPaused ? pauseStory($event) : null"
-          @mouseleave="isCntrlPaused ? playStory($event) : null"
-          @click="isCntrlPaused ? playStory($event) : pauseStory($event)"
+          @mouseenter="!isPaused ? pauseStory($event) : null"
+          @mouseleave="isPaused ? playStory($event) : null"
+          @click="isPaused ? playStory($event) : pauseStory($event)"
         >
           <video
             :id="getSrc(story, index).url"
@@ -134,7 +134,6 @@ export default {
     progress: 0,
     interval: 0,
     isPaused: false,
-    isCntrlPaused: false,
     newDur: 0,
     pausePer: 0,
   }),
@@ -271,7 +270,6 @@ export default {
         this.toggleVideo("pause", event);
       }
       this.isPaused = true;
-      this.isCntrlPaused = true;
       this.pausePer = this.percent;
       clearInterval(this.progress);
       clearInterval(this.interval);
@@ -281,8 +279,6 @@ export default {
       if (event) {
         this.toggleVideo("play", event);
       }
-      this.isCntrlPaused = true;
-
       this.isPaused = false;
       this.play();
     },
