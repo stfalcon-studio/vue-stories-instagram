@@ -17,8 +17,8 @@
       >
         <div
           class="story__source"
-          @mouseenter="isPaused ? playStory($event) : pauseStory($event)"
-          @mouseleave="isPaused ? playStory($event) : pauseStory($event)"
+          @mouseenter="pauseStory($event)"
+          @mouseleave="playStory($event)"
           @click="isPaused ? playStory($event) : pauseStory($event)"
         >
           <video
