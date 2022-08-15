@@ -17,8 +17,8 @@
       >
         <div
           class="story__source"
-          @mouseenter="pauseStory($event)"
-          @mouseleave="playStory($event)"
+          @mouseenter="!isPaused ? pauseStory($event) : null"
+          @mouseleave="isPaused ? playStory($event) : null"
           @click="isPaused ? playStory($event) : pauseStory($event)"
         >
           <video
@@ -359,7 +359,6 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
-
 
     @media screen and (max-height: 768px) {
       width: 50vh;
