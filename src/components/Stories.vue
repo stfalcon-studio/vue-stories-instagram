@@ -364,7 +364,7 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
-    @media screen and (min-width: 768px) {
+    @media screen and (max-width: 768px) {
       padding-top: 80px;
     }
     @media screen and (max-height: 768px) {
