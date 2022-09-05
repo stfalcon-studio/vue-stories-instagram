@@ -568,9 +568,10 @@ export default {
     font-size: 35px;
   }
 }
-
-.img-style {
-  max-height: 75%;
-  margin-top: 17%;
+@media screen and (max-width: 768px) {
+  .img-style {
+    max-height: 75%;
+    margin-top: 17%;
+  }
 }
 </style>
