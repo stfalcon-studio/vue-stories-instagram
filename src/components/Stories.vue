@@ -364,20 +364,20 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
-    @media screen and (min-width: 768px) {
-      padding-top: 50px;
-      padding-bottom: 50px;
-    }
-    @media screen and (max-height: 768px) {
-      width: 50vh;
-      height: 90vh;
-    }
+    // @media screen and (min-width: 768px) {
+    //   padding-top: 50px;
+    //   padding-bottom: 50px;
+    // }
+    // @media screen and (max-height: 768px) {
+    //   width: 50vh;
+    //   height: 90vh;
+    // }
 
-    @media screen and (max-width: 768px) {
-      width: 100%;
-      height: auto;
-      flex: 1 1 auto;
-    }
+    // @media screen and (max-width: 768px) {
+    //   width: 100%;
+    //   height: auto;
+    //   flex: 1 1 auto;
+    // }
 
     img,
     video {
@@ -569,10 +569,10 @@ export default {
     font-size: 35px;
   }
 }
-@media screen and (max-width: 768px) {
-  .img-style {
-    max-height: 60%;
-    margin-top: 22%;
-  }
-}
+// @media screen and (max-width: 768px) {
+//   .img-style {
+//     width: 40vh;
+//     height: 70vh;
+//   }
+// }
 </style>
