@@ -364,9 +364,10 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
-    // padding-top: 50px;
-    // padding-bottom: 50px;
-
+    @media screen and (min-width: 768px) {
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
     @media screen and (max-height: 768px) {
       width: 50vh;
       height: 90vh;
