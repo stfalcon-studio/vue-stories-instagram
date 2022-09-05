@@ -567,10 +567,10 @@ export default {
     font-weight: 100;
     font-size: 35px;
   }
+}
 
-  .img-style {
-    max-height: 75%;
-    margin-top: 17%;
-  }
+.img-style {
+  max-height: 75%;
+  margin-top: 17%;
 }
 </style>
