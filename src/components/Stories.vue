@@ -571,8 +571,8 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .img-style {
-    max-height: 75%;
-    margin-top: 17%;
+    max-height: 60%;
+    margin-top: 22%;
   }
 }
 </style>
