@@ -27,7 +27,12 @@
             :src="getSrc(story, index).url"
             autoplay
           ></video>
-          <img v-else :src="getSrc(story, index).url" alt="" />
+          <img
+            v-else
+            :src="getSrc(story, index).url"
+            alt=""
+            class="img-style"
+          />
           <div class="story__header" v-if="index === indexSelected">
             <div class="time">
               <div
@@ -359,8 +364,8 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    // padding-top: 50px;
+    // padding-bottom: 50px;
 
     @media screen and (max-height: 768px) {
       width: 50vh;
@@ -561,6 +566,11 @@ export default {
     color: #ffffff;
     font-weight: 100;
     font-size: 35px;
+  }
+
+  .img-style {
+    max-height: 75%;
+    margin-top: 17%;
   }
 }
 </style>
