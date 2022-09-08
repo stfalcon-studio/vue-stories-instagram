@@ -361,7 +361,7 @@ export default {
     position: relative;
     border-radius: 16px;
     background: #000000;
-    width: 414px;
+    width: 100%;
     height: 751px;
     background-size: contain;
     padding-top: 80px;
