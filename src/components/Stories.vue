@@ -364,12 +364,9 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
-    padding-top: 80px;
-
-    @media screen and (max-height: 768px) {
-      width: 50vh;
-      height: 90vh;
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     @media screen and (max-width: 768px) {
       width: 100%;
@@ -380,8 +377,7 @@ export default {
     img,
     video {
       width: 100%;
-      height: 100%;
-      object-fit: fill;
+      height: auto;
       display: block;
     }
   }
@@ -569,12 +565,12 @@ export default {
 }
 @media screen and (min-width: 768px) {
   .img-style {
-    max-height: 60vh;
+    max-height: 640px;
   }
 }
 @media screen and (max-width: 768px) {
   .img-style {
-    max-height: 70vh;
+    max-height: 640px;
   }
 }
 </style>
