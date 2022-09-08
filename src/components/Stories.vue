@@ -361,10 +361,11 @@ export default {
     position: relative;
     border-radius: 16px;
     background: #000000;
-    width: 100%;
+    width: 414px;
     height: 751px;
     background-size: contain;
     padding-top: 80px;
+
     @media screen and (max-height: 768px) {
       width: 50vh;
       height: 90vh;
