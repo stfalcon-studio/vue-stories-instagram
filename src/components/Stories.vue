@@ -337,8 +337,9 @@ export default {
   left: 0;
   background: rgba(16, 16, 16, 0.98);
   font-family: sans-serif;
-
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .stories {
