@@ -19,7 +19,6 @@
           class="story__source"
           @touchstart="!isPaused ? pauseStory($event) : null"
           @touchend="isPaused ? playStory($event) : null"
-          @click="isPaused ? playStory($event) : pauseStory($event)"
         >
           <video
             :id="getSrc(story, index).url"
@@ -31,11 +30,7 @@
             v-else
             :src="getSrc(story, index).url"
             alt=""
-            :class="
-              this.defectAndroid()
-                ? 'and-pointer-disabled img-style'
-                : 'img-style'
-            "
+            class="img-style"
           />
           <div class="story__header" v-if="index === indexSelected">
             <div class="time">
@@ -158,13 +153,6 @@ export default {
     },
   },
   methods: {
-    defectAndroid() {
-      if (/Android/i.test(navigator.userAgent)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     getSrc(story, index) {
       const viewedIndex = this.getLastViewedIndex(story);
       return index === this.indexSelected
@@ -397,9 +385,6 @@ export default {
       width: 100%;
       height: auto;
       display: block;
-    }
-
-    .and-pointer-disabled {
       pointer-events: none;
     }
   }
