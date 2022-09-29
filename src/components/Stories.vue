@@ -60,7 +60,7 @@
                   <img :src="story.picture" alt="" />
                 </div>
                 <div class="user__name">
-                  {{ story.username }}
+                  {{ this.mobile }}
                 </div>
               </div>
               <div class="story__time">{{ story.time }}</div>
@@ -159,7 +159,6 @@ export default {
   mounted() {
     if (process.client) {
       this.mobile = this.isMobile();
-      alert(this.mobile)
     }
   },
   methods: {
