@@ -383,7 +383,6 @@ export default {
 
     img,
     video {
-      
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
