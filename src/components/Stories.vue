@@ -20,11 +20,7 @@
           @touchstart="!isPaused ? pauseStory($event) : playStory($event)"
           @touchend="isPaused ? playStory($event) : pauseStory($event)"
           @click="
-            this.isMobile
-              ? isPaused
-                ? playStory($event)
-                : pauseStory($event)
-              : null
+            mobile ? (isPaused ? playStory($event) : pauseStory($event)) : null
           "
         >
           <video
@@ -147,6 +143,7 @@ export default {
     isPaused: false,
     newDur: 0,
     pausePer: 0,
+    mobile: false,
   }),
   computed: {
     isAllStoriesEnd() {
@@ -158,15 +155,24 @@ export default {
     isCurrentAllImagesEnd() {
       return this.key >= this.stories[this.indexSelected].images.length - 1;
     },
+  },
+  mounted() {
+    if (process.client) {
+      this.mobile = this.isMobile();
+    }
+  },
+  methods: {
     isMobile() {
-      if (process.client) {
-        return window && window.innerWidth < 768 ? true : false;
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        return true;
       } else {
         return false;
       }
     },
-  },
-  methods: {
     getSrc(story, index) {
       const viewedIndex = this.getLastViewedIndex(story);
       return index === this.indexSelected
