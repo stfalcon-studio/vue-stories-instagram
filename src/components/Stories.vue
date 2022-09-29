@@ -339,7 +339,9 @@ export default {
   font-family: sans-serif;
   user-select: none;
   -webkit-user-select: none;
+  -moz-user-select: none;
   -webkit-touch-callout: none;
+  -moz-touch-callout: none;
 }
 
 .stories {
