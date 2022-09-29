@@ -17,8 +17,8 @@
       >
         <div
           class="story__source"
-          @touchstart="!isPaused ? pauseStory($event) : null"
-          @touchend="isPaused ? playStory($event) : null"
+          @touchstart="!isPaused ? pauseStory($event) : playStory($event)"
+          @touchend="isPaused ? playStory($event) : pauseStory($event)"
           @click="
             this.isMobile
               ? isPaused
