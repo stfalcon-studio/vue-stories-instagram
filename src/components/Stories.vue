@@ -159,6 +159,7 @@ export default {
   mounted() {
     if (process.client) {
       this.mobile = this.isMobile();
+      alert(this.mobile)
     }
   },
   methods: {
