@@ -19,6 +19,13 @@
           class="story__source"
           @touchstart="!isPaused ? pauseStory($event) : null"
           @touchend="isPaused ? playStory($event) : null"
+          @click="
+            isMobile
+              ? isPaused
+                ? playStory($event)
+                : pauseStory($event)
+              : null
+          "
         >
           <video
             :id="getSrc(story, index).url"
@@ -150,6 +157,13 @@ export default {
     },
     isCurrentAllImagesEnd() {
       return this.key >= this.stories[this.indexSelected].images.length - 1;
+    },
+    isMobile() {
+      if (process.client) {
+        return window && window.innerWidth < 768 ? true : false;
+      } else {
+        return false;
+      }
     },
   },
   methods: {
