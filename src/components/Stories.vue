@@ -28,6 +28,8 @@
             autoplay
           ></video>
           <img
+            @touchstart="!isPaused ? pauseStory($event) : null"
+            @touchend="isPaused ? playStory($event) : null"
             v-else
             :src="getSrc(story, index).url"
             alt=""
@@ -338,6 +340,7 @@ export default {
   background: rgba(16, 16, 16, 0.98);
   font-family: sans-serif;
 
+  -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
