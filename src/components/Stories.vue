@@ -19,9 +19,7 @@
           class="story__source"
           @touchstart="!isPaused ? pauseStory($event) : playStory($event)"
           @touchend="isPaused ? playStory($event) : pauseStory($event)"
-          @click="
-            this.mobile ? (isPaused ? playStory($event) : pauseStory($event)) : null
-          "
+          @click="isPaused ? playStory($event) : pauseStory($event)"
         >
           <video
             :id="getSrc(story, index).url"
@@ -59,8 +57,8 @@
                 <div class="user__image">
                   <img :src="story.picture" alt="" />
                 </div>
-                <div class="user__name" v-if="this.mobile">
-                  {{ this.mobile }}
+                <div class="user__name">
+                  {{ story.username }}
                 </div>
               </div>
               <div class="story__time">{{ story.time }}</div>
@@ -357,12 +355,12 @@ export default {
   background: rgba(16, 16, 16, 0.98);
   font-family: sans-serif;
 
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  // -webkit-touch-callout: none;
+  // -webkit-user-select: none;
+  // -khtml-user-select: none;
+  // -moz-user-select: none;
+  // -ms-user-select: none;
+  // user-select: none;
 }
 
 .stories {
