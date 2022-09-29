@@ -20,7 +20,7 @@
           @touchstart="!isPaused ? pauseStory($event) : null"
           @touchend="isPaused ? playStory($event) : null"
           @click="
-            isMobile
+            this.isMobile
               ? isPaused
                 ? playStory($event)
                 : pauseStory($event)
