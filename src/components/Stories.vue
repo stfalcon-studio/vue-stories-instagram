@@ -20,7 +20,7 @@
           @touchstart="!isPaused ? pauseStory($event) : playStory($event)"
           @touchend="isPaused ? playStory($event) : pauseStory($event)"
           @click="
-            mobile ? (isPaused ? playStory($event) : pauseStory($event)) : null
+            this.mobile ? (isPaused ? playStory($event) : pauseStory($event)) : null
           "
         >
           <video
@@ -59,7 +59,7 @@
                 <div class="user__image">
                   <img :src="story.picture" alt="" />
                 </div>
-                <div class="user__name">
+                <div class="user__name" v-if="this.mobile">
                   {{ this.mobile }}
                 </div>
               </div>
