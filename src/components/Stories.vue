@@ -1,36 +1,48 @@
 <template>
-  <div class="stories-wrapper">
+  <div class="stories-wrapper" id="storiesTemplateID">
     <div @click="closeStories" class="close"></div>
-    <div class="stories">
+    <div class="stories" @click.self="closeStories">
       <div
-          v-for="(story, index) in stories"
-          :key="index"
-          class="story"
-          :style="
+        v-for="(story, index) in stories"
+        :key="index"
+        class="story"
+        :style="
           index === indexSelected
             ? `transform: translate(0px)`
-            : `transform: translate(${calculateTransform(index)}px) scale(0.3);cursor:pointer;`
+            : `transform: translate(${calculateTransform(
+                index
+              )}px) scale(0.3);cursor:pointer;`
         "
-          @click="index !== indexSelected ? selectSlide(index) : ''"
+        @click="index !== indexSelected ? selectSlide(index) : ''"
       >
-        <div class="story__source" @click="isPaused ? playStory($event) : pauseStory($event)">
-          <video :id="getSrc(story, index).url" v-if="getSrc(story, index).type === 'video'"
-                 :src="getSrc(story, index).url" autoplay></video>
+        <div
+          class="story__source"
+          @touchstart="!isPaused ? pauseStory($event) : playStory($event)"
+          @touchend="isPaused ? playStory($event) : pauseStory($event)"
+          @click="isPaused ? playStory($event) : pauseStory($event)"
+        >
+          <video
+            :id="getSrc(story, index).url"
+            v-if="getSrc(story, index).type === 'video'"
+            :src="getSrc(story, index).url"
+            autoplay
+          ></video>
           <img
-              v-else
-              :src="getSrc(story, index).url"
-              alt=""
+            v-else
+            :src="getSrc(story, index).url"
+            alt=""
+            class="img-style"
           />
           <div class="story__header" v-if="index === indexSelected">
             <div class="time">
               <div
-                  class="time__item"
-                  v-for="(elm, index) in story.images.length"
-                  :key="index"
+                class="time__item"
+                v-for="(elm, index) in story.images.length"
+                :key="index"
               >
                 <div
-                    class="time__fill"
-                    :style="
+                  class="time__fill"
+                  :style="
                     index === key
                       ? `width: ${percent}%`
                       : key > index
@@ -43,7 +55,7 @@
             <div class="story__top">
               <div class="user">
                 <div class="user__image">
-                  <img :src="story.picture" alt=""/>
+                  <img :src="story.picture" alt="" />
                 </div>
                 <div class="user__name">
                   {{ story.username }}
@@ -54,28 +66,48 @@
           </div>
           <div class="story__body">
             <div class="user" v-if="index !== indexSelected">
-              <div class="user__image" :style="getNotViewedIndex(story) === -1 ? `background: #FFFFFF` : ''">
-                <img :src="story.picture" alt=""/>
+              <div
+                class="user__image"
+                :style="
+                  getNotViewedIndex(story) === -1 ? `background: #FFFFFF` : ''
+                "
+              >
+                <img :src="story.picture" alt="" />
               </div>
               <div class="user__name">
                 {{ story.username }}
               </div>
             </div>
-            <slot v-if="showInnerContent && index === indexSelected" name="innerContent" :story="story"></slot>
+            <slot
+              v-if="showInnerContent && index === indexSelected"
+              name="innerContent"
+              :story="story"
+            ></slot>
           </div>
         </div>
-        <div v-if="index === indexSelected" class="story__icon story__icon--prev" @click="prev(index)"></div>
-        <div v-if="index === indexSelected" class="story__icon story__icon--next" @click="next(index)"></div>
-        <slot v-if="showOuterContent && index === indexSelected" name="outerContent" :story="story"></slot>
+        <div
+          v-if="index === indexSelected"
+          class="story__icon story__icon--prev"
+          @click="prev(index)"
+        ></div>
+        <div
+          v-if="index === indexSelected"
+          class="story__icon story__icon--next"
+          @click="next(index)"
+        ></div>
+        <slot
+          v-if="showOuterContent && index === indexSelected"
+          name="outerContent"
+          :story="story"
+        ></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'Stories',
+  name: "Stories",
   props: {
     stories: {
       type: Array,
@@ -109,30 +141,50 @@ export default {
     isPaused: false,
     newDur: 0,
     pausePer: 0,
+    mobile: false,
   }),
   computed: {
     isAllStoriesEnd() {
-      return this.indexSelected >= this.stories.length - 1 && this.isCurrentAllImagesEnd;
+      return (
+        this.indexSelected >= this.stories.length - 1 &&
+        this.isCurrentAllImagesEnd
+      );
     },
     isCurrentAllImagesEnd() {
       return this.key >= this.stories[this.indexSelected].images.length - 1;
+    },
+  },
+  mounted() {
+    if (process.client) {
+      this.mobile = this.isMobile();
     }
   },
   methods: {
+    isMobile() {
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     getSrc(story, index) {
       const viewedIndex = this.getLastViewedIndex(story);
       return index === this.indexSelected
-          ? {
+        ? {
             url: story.images[this.key].url,
             type: story.images[this.key].type,
           }
-          : {
+        : {
             url: story.images[viewedIndex].url,
             type: story.images[viewedIndex].type,
-          }
+          };
     },
     getNotViewedIndex(story) {
-      return story.images.findIndex(item => !item.viewed);
+      return story.images.findIndex((item) => !item.viewed);
     },
     getLastViewedIndex(story) {
       const keyIndex = this.getNotViewedIndex(story);
@@ -145,13 +197,13 @@ export default {
       this.stopVideo(this.stories[this.indexSelected].images[this.key].url);
       this.indexSelected = index;
       this.key = this.getLastViewedIndex(this.stories[this.indexSelected]);
-      this.reset()
+      this.reset();
     },
     onAllStoriesEnd() {
       this.difference = 0;
       this.indexSelected = 0;
       this.key = 0;
-      this.$emit('allStoriesEnd');
+      this.$emit("allStoriesEnd");
     },
     onCurrentAllImagesEnd(index) {
       this.difference += index - (index + 1);
@@ -159,11 +211,11 @@ export default {
       this.stories[index].images[this.key].viewed = true;
       this.indexSelected++;
       this.key = this.getLastViewedIndex(this.stories[this.indexSelected]);
-      this.$emit('сurrentAllImagesEnd', index);
+      this.$emit("сurrentAllImagesEnd", index);
     },
     onCurrentImageEnd(index) {
       this.stories[index].images[this.key].viewed = true;
-      this.$emit('сurrentImageEnd', this.key);
+      this.$emit("сurrentImageEnd", this.key);
       this.key++;
     },
     next(index) {
@@ -173,29 +225,29 @@ export default {
       } else if (this.isCurrentAllImagesEnd) {
         setTimeout(() => {
           this.onCurrentAllImagesEnd(index);
-        })
+        });
       } else {
         this.stories[this.indexSelected].images[this.key].viewed = true;
-        this.key++
+        this.key++;
       }
-      this.reset()
+      this.reset();
     },
     prev(index) {
       this.isPaused = false;
       if (this.indexSelected <= 0 && this.key <= 0) {
-        this.key = 0
+        this.key = 0;
       } else if (this.key <= 0) {
         // Without delay
         setTimeout(() => {
           this.difference += index - (index - 1);
           this.indexSelected--;
           this.key = this.getLastViewedIndex(this.stories[this.indexSelected]);
-        })
+        });
       } else {
         this.key--;
         this.stories[this.indexSelected].images[this.key].viewed = false;
       }
-      this.reset()
+      this.reset();
     },
     autoPlay() {
       if (this.isAllStoriesEnd) {
@@ -206,25 +258,26 @@ export default {
         this.onCurrentImageEnd(this.indexSelected);
       }
       this.reset();
-
     },
     play() {
       this.timer = new Date().getTime();
       this.progress = setInterval(() => {
         // forward
-        let time = new Date().getTime()
+        let time = new Date().getTime();
         if (this.newDur > 0) {
           this.percent =
-              this.pausePer +
-              Math.floor((100 * (time - this.timer)) / this.duration);
+            this.pausePer +
+            Math.floor((100 * (time - this.timer)) / this.duration);
         } else {
-          this.percent = Math.floor((100 * (time - this.timer)) / this.duration);
+          this.percent = Math.floor(
+            (100 * (time - this.timer)) / this.duration
+          );
         }
-      }, this.duration / 100)
+      }, this.duration / 100);
       if (this.newDur > 0) {
-        this.interval = setInterval(this.autoPlay, this.newDur)
+        this.interval = setInterval(this.autoPlay, this.newDur);
       } else {
-        this.interval = setInterval(this.autoPlay, this.duration)
+        this.interval = setInterval(this.autoPlay, this.duration);
       }
     },
     reset() {
@@ -236,7 +289,7 @@ export default {
     },
     pauseStory(event) {
       if (event) {
-        this.toggleVideo('pause', event);
+        this.toggleVideo("pause", event);
       }
       this.isPaused = true;
       this.pausePer = this.percent;
@@ -246,7 +299,7 @@ export default {
     },
     playStory(event) {
       if (event) {
-        this.toggleVideo('play', event);
+        this.toggleVideo("play", event);
       }
       this.isPaused = false;
       this.play();
@@ -265,7 +318,10 @@ export default {
       }
     },
     calculateTransform(index) {
-      if (this.indexSelected - index === -1 || this.indexSelected - index === 1) {
+      if (
+        this.indexSelected - index === -1 ||
+        this.indexSelected - index === 1
+      ) {
         return 315 * (index + this.difference);
       }
       if (index > this.indexSelected) {
@@ -274,20 +330,18 @@ export default {
         return Math.abs((315 - 315 * (index + this.difference)) * 0.5) * -1;
       }
     },
-    closeStories(){
-      this.$emit('closeStories');
+    closeStories() {
+      this.$emit("closeStories");
     },
   },
   mounted() {
     this.play();
     this.selectSlide(this.currentIndex);
-  }
-}
-
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 * {
   box-sizing: border-box;
 }
@@ -300,6 +354,13 @@ export default {
   left: 0;
   background: rgba(16, 16, 16, 0.98);
   font-family: sans-serif;
+
+  // -webkit-touch-callout: none;
+  // -webkit-user-select: none;
+  // -khtml-user-select: none;
+  // -moz-user-select: none;
+  // -ms-user-select: none;
+  // user-select: none;
 }
 
 .stories {
@@ -311,7 +372,7 @@ export default {
 
 .story {
   position: absolute;
-  transition: transform .2s cubic-bezier(0.4, 0, 1, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 1, 1);
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -327,6 +388,9 @@ export default {
     width: 414px;
     height: 751px;
     background-size: contain;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     @media screen and (max-width: 768px) {
       width: 100%;
@@ -334,11 +398,12 @@ export default {
       flex: 1 1 auto;
     }
 
-    img, video {
+    img,
+    video {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
+      height: auto;
       display: block;
+      pointer-events: none;
     }
   }
 
@@ -353,7 +418,7 @@ export default {
   &__time {
     font-size: 16px;
     line-height: 20px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   &__top {
@@ -385,12 +450,12 @@ export default {
     .user__image {
       width: 140px;
       height: 140px;
-      background: linear-gradient(180deg, #4C7CF6 0%, #6200C3 100%);
+      background: linear-gradient(180deg, #4c7cf6 0%, #6200c3 100%);
       margin: 0;
       padding: 5px;
 
       img {
-        border: 5px solid #FFFFFF;
+        border: 5px solid #ffffff;
         border-radius: 100%;
       }
     }
@@ -475,7 +540,7 @@ export default {
     font-weight: 600;
     font-size: 16px;
     line-height: 18px;
-    color: #FFFFFF;
+    color: #ffffff;
     margin-right: 5px;
   }
 }
@@ -516,11 +581,21 @@ export default {
   justify-content: center;
   cursor: pointer;
 
-  &:after{
+  &:after {
     content: "\00d7";
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: 100;
     font-size: 35px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .img-style {
+    max-height: 640px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .img-style {
+    max-height: 640px;
   }
 }
 </style>
